@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Admin;
 use Carbon\Carbon; 
 use Auth;
+use App\Models\Saler;
 use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
@@ -29,7 +30,10 @@ class AdminController extends Controller
     }
 
 public function Dashboard(){
-    	return view('admin.admin_dashboard');
+
+        $saler=Saler::all();
+        //dd($saler);
+    	return view('admin.admin_dashboard',compact('saler'));
     }
 
 
@@ -58,5 +62,18 @@ public function Dashboard(){
         ]);
 
          return redirect()->route('login_from')->with('error','Admin Created Successfully');
+   }
+
+
+   public function adminChangeStatus(Request $request){
+
+    $salerstatus = Saler::find($request->user_id);
+        $status = (isset($request->status) && $request->status == 0) ? 1 : 0;
+        $salerstatus->status = $status;
+        if($salerstatus->save()){
+          return ['status'=>'success','message'=>'Status change successfully!'];
+        }else{
+          return ['status'=>'error','message'=>'Something going wrong'];
+        }
    }
 }

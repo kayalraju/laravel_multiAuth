@@ -65,6 +65,7 @@ Route::get('/logout',[AdminController::class, 'AdminLogout'])->name('admin.logou
 
  Route::get('/register',[AdminController::class,'register'])->name('admin.register');
  Route::post('/register/create',[AdminController::class, 'AdminRegisterCreate'])->name('admin.register.create');
+ Route::post('/ChangeStatus',[AdminController::class,'adminChangeStatus'])->name('ChangeStatus');
 });
 
 
